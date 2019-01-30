@@ -6,6 +6,24 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "track_table")
 public class Track {
+    public Track() {
+
+    }
+
+    public Track(com.coopra.data.Track serverTrack) {
+        id = serverTrack.id;
+        userFavorite = serverTrack.user_favorite;
+        favoritingsCount = serverTrack.favoritings_count;
+        playbackCount = serverTrack.playback_count;
+        streamUrl = serverTrack.stream_url;
+        genre = serverTrack.genre;
+        duration = serverTrack.duration;
+        artworkUrl = serverTrack.artwork_url;
+        title = serverTrack.title;
+        userId = serverTrack.user_id;
+        createdAt = serverTrack.created_at;
+    }
+
     @PrimaryKey
     public int id;
 

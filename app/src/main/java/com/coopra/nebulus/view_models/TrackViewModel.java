@@ -35,19 +35,7 @@ public class TrackViewModel extends AndroidViewModel {
             public void onResponse(@NonNull Call<List<com.coopra.data.Track>> call, @NonNull Response<List<com.coopra.data.Track>> response) {
                 if (response.body() != null) {
                     for (com.coopra.data.Track track : response.body()) {
-                        Track databaseTrack = new Track();
-                        databaseTrack.id = track.id;
-                        databaseTrack.userFavorite = track.user_favorite;
-                        databaseTrack.favoritingsCount = track.favoritings_count;
-                        databaseTrack.playbackCount = track.playback_count;
-                        databaseTrack.streamUrl = track.stream_url;
-                        databaseTrack.genre = track.genre;
-                        databaseTrack.duration = track.duration;
-                        databaseTrack.artworkUrl = track.artwork_url;
-                        databaseTrack.title = track.title;
-                        databaseTrack.userId = track.user_id;
-                        databaseTrack.createdAt = track.created_at;
-
+                        Track databaseTrack = new Track(track);
                         mRepository.insert(databaseTrack);
                     }
                 }
