@@ -35,7 +35,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
         if (mTracks != null) {
             Track current = mTracks.get(i);
             trackViewHolder.titleView.setText(current.title);
-            trackViewHolder.artistNameView.setText(current.genre);
+            //trackViewHolder.artistNameView.setText(current.user.username);
 
             if (!TextUtils.isEmpty(current.artworkUrl)) {
                 Glide.with(trackViewHolder.itemView)

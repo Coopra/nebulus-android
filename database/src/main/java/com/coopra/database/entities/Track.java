@@ -2,9 +2,10 @@ package com.coopra.database.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "track_table")
+@Entity(tableName = "track_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"))
 public class Track {
     public Track() {
 
@@ -30,10 +31,8 @@ public class Track {
     @ColumnInfo(name = "created_at")
     public String createdAt;
 
-    @ColumnInfo(name = "user_id")
+    @ColumnInfo(name = "user_id", index = true)
     public String userId;
-
-    //public User user;
 
     @ColumnInfo(name = "title")
     public String title;
