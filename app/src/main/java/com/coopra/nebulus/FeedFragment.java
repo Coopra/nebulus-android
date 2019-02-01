@@ -13,26 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.coopra.database.entities.Track;
-import com.coopra.nebulus.view_models.TrackViewModel;
+import com.coopra.nebulus.view_models.FeedViewModel;
 
 import java.util.List;
 
 public class FeedFragment extends Fragment {
     private TrackListAdapter mAdapter;
-    private TrackViewModel mTrackViewModel;
+    private FeedViewModel mFeedViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTrackViewModel = ViewModelProviders.of(this).get(TrackViewModel.class);
-        mTrackViewModel.getAllTracks().observe(this, new Observer<List<Track>>() {
+        mFeedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
+        mFeedViewModel.getAllTracks().observe(this, new Observer<List<Track>>() {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 if (tracks != null && tracks.size() > 0) {
                     // Update the cached copy of the tracks in the adapter.
                     mAdapter.setTracks(tracks);
                 } else {
-                    mTrackViewModel.populateDatabase();
+                    mFeedViewModel.populateDatabase();
                 }
             }
         });

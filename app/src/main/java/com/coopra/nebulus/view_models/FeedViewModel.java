@@ -15,11 +15,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TrackViewModel extends AndroidViewModel {
+public class FeedViewModel extends AndroidViewModel {
     private LiveData<List<Track>> mAllTracks;
     private TrackRepository mRepository;
 
-    public TrackViewModel(Application application) {
+    public FeedViewModel(Application application) {
         super(application);
         mRepository = new TrackRepository(application);
         mAllTracks = mRepository.getAll();
