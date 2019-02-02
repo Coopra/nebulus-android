@@ -11,10 +11,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class TracksService {
-    public static void getFeedTracks(Callback<List<Track>> callback) {
+    public static void getRandomTracks(Callback<List<Track>> callback) {
         TracksInterface service = RetrofitHelper.createRetrofit().create(TracksInterface.class);
 
-        Call<List<Track>> call = service.getFeedTracks(Constants.CLIENT_ID);
+        Call<List<Track>> call = service.getRandomTracks(Constants.CLIENT_ID);
         call.enqueue(callback);
     }
 }

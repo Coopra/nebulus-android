@@ -32,7 +32,7 @@ public class FeedFragment extends Fragment {
                     // Update the cached copy of the tracks in the adapter.
                     mAdapter.setTracks(tracks);
                 } else {
-                    mFeedViewModel.populateDatabase();
+                    mFeedViewModel.populateDatabase(getContext());
                 }
             }
         });

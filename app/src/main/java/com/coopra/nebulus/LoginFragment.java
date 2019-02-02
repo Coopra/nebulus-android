@@ -47,7 +47,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void saveToken(String url) {
-        String code = url.substring(url.indexOf("="));
+        String code = url.substring(url.indexOf("=") + 1);
         String token = code.split("&")[0];
         TokenHandler.saveToken(getContext(), token);
         finishLogin();

@@ -3,12 +3,17 @@ package com.coopra.nebulus.view_models;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.coopra.data.DashboardActivity;
+import com.coopra.data.DashboardActivityEnvelope;
 import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
+import com.coopra.nebulus.TokenHandler;
 import com.coopra.nebulus.TrackRepository;
-import com.coopra.service.service_implementations.TracksService;
+import com.coopra.service.service_implementations.ActivitiesService;
 
 import java.util.List;
 
@@ -30,21 +35,21 @@ public class FeedViewModel extends AndroidViewModel {
         return mAllTracks;
     }
 
-    public void populateDatabase() {
-        TracksService.getFeedTracks(new Callback<List<com.coopra.data.Track>>() {
+    public void populateDatabase(Context context) {
+        ActivitiesService.getFeedTracks(TokenHandler.getToken(context), new Callback<DashboardActivityEnvelope>() {
             @Override
-            public void onResponse(@NonNull Call<List<com.coopra.data.Track>> call, @NonNull Response<List<com.coopra.data.Track>> response) {
+            public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 if (response.body() != null) {
-                    for (com.coopra.data.Track track : response.body()) {
-                        Track databaseTrack = new Track(track);
-                        User databaseUser = new User(track.user);
+                    for (DashboardActivity activity : response.body().collection) {
+                        Track databaseTrack = new Track(activity.origin);
+                        User databaseUser = new User(activity.origin.user);
                         mRepository.insert(new TrackRepository.TrackParameters(databaseTrack, databaseUser));
                     }
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<com.coopra.data.Track>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Throwable t) {
 
             }
         });

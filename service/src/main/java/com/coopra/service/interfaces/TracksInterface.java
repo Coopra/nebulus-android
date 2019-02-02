@@ -10,5 +10,5 @@ import retrofit2.http.Query;
 
 public interface TracksInterface {
     @GET("tracks")
-    Call<List<Track>> getFeedTracks(@Query("client_id") String clientId);
+    Call<List<Track>> getRandomTracks(@Query("client_id") String clientId);
 }
