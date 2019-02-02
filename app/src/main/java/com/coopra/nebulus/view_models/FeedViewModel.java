@@ -6,6 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.coopra.database.entities.Track;
+import com.coopra.database.entities.User;
 import com.coopra.nebulus.TrackRepository;
 import com.coopra.service.service_implementations.TracksService;
 
@@ -36,7 +37,8 @@ public class FeedViewModel extends AndroidViewModel {
                 if (response.body() != null) {
                     for (com.coopra.data.Track track : response.body()) {
                         Track databaseTrack = new Track(track);
-                        mRepository.insert(databaseTrack);
+                        User databaseUser = new User(track.user);
+                        mRepository.insert(new TrackRepository.TrackParameters(databaseTrack, databaseUser));
                     }
                 }
             }

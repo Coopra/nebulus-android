@@ -6,6 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.coopra.database.data_access_objects.TrackDao;
+import com.coopra.database.data_access_objects.UserDao;
 import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
 
@@ -27,4 +28,6 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract TrackDao trackDao();
+
+    public abstract UserDao userDao();
 }
