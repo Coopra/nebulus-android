@@ -10,6 +10,9 @@ import com.coopra.database.entities.User;
 @Dao
 public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(User... users);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(User user);
 
     @Query("DELETE FROM user_table")

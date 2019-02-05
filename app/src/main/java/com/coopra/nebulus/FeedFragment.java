@@ -2,6 +2,7 @@ package com.coopra.nebulus;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,25 +16,17 @@ import android.view.ViewGroup;
 import com.coopra.database.entities.Track;
 import com.coopra.nebulus.view_models.FeedViewModel;
 
-import java.util.List;
-
 public class FeedFragment extends Fragment {
     private TrackListAdapter mAdapter;
-    private FeedViewModel mFeedViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFeedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
-        mFeedViewModel.getAllTracks().observe(this, new Observer<List<Track>>() {
+        FeedViewModel feedViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
+        feedViewModel.getAllTracks().observe(this, new Observer<PagedList<Track>>() {
             @Override
-            public void onChanged(@Nullable List<Track> tracks) {
-                if (tracks != null && tracks.size() > 0) {
-                    // Update the cached copy of the tracks in the adapter.
-                    mAdapter.setTracks(tracks);
-                } else {
-                    mFeedViewModel.populateDatabase(getContext());
-                }
+            public void onChanged(@Nullable PagedList<Track> tracks) {
+                mAdapter.submitList(tracks);
             }
         });
     }

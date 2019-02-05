@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "track_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"))
 public class Track {
@@ -11,18 +12,20 @@ public class Track {
 
     }
 
-    public Track(com.coopra.data.Track serverTrack) {
-        id = serverTrack.id;
-        userFavorite = serverTrack.user_favorite;
-        favoritingsCount = serverTrack.favoritings_count;
-        playbackCount = serverTrack.playback_count;
-        streamUrl = serverTrack.stream_url;
-        genre = serverTrack.genre;
-        duration = serverTrack.duration;
-        artworkUrl = serverTrack.artwork_url;
-        title = serverTrack.title;
-        userId = serverTrack.user_id;
-        createdAt = serverTrack.created_at;
+    public Track(@NonNull com.coopra.data.Track serverTrack, @NonNull String nextToken, @NonNull String activityCreatedAt) {
+        this.id = serverTrack.id;
+        this.userFavorite = serverTrack.user_favorite;
+        this.favoritingsCount = serverTrack.favoritings_count;
+        this.playbackCount = serverTrack.playback_count;
+        this.streamUrl = serverTrack.stream_url;
+        this.genre = serverTrack.genre;
+        this.duration = serverTrack.duration;
+        this.artworkUrl = serverTrack.artwork_url;
+        this.title = serverTrack.title;
+        this.userId = serverTrack.user_id;
+        this.createdAt = serverTrack.created_at;
+        this.nextToken = nextToken;
+        this.activityCreatedAt = activityCreatedAt;
     }
 
     @PrimaryKey
@@ -57,4 +60,10 @@ public class Track {
 
     @ColumnInfo(name = "user_favorite")
     public boolean userFavorite;
+
+    @ColumnInfo(name = "next_href")
+    public String nextToken;
+
+    @ColumnInfo(name = "activity_created_at")
+    public String activityCreatedAt;
 }

@@ -1,7 +1,9 @@
 package com.coopra.nebulus;
 
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,13 +15,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.coopra.database.entities.Track;
 
-import java.util.List;
-
-public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.TrackViewHolder> {
+public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.TrackViewHolder> {
     private final LayoutInflater mInflater;
-    private List<Track> mTracks; // Cached copy of tracks
 
     TrackListAdapter(Context context) {
+        super(DIFF_CALLBACK);
         mInflater = LayoutInflater.from(context);
     }
 
@@ -32,10 +32,10 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
 
     @Override
     public void onBindViewHolder(@NonNull TrackViewHolder trackViewHolder, int i) {
-        if (mTracks != null) {
-            Track current = mTracks.get(i);
+        Track current = getItem(i);
+        if (current != null) {
             trackViewHolder.titleView.setText(current.title);
-            //trackViewHolder.artistNameView.setText(current.user.username);
+            //trackViewHolder.artistNameView.setText(current.users.username);
 
             if (!TextUtils.isEmpty(current.artworkUrl)) {
                 Glide.with(trackViewHolder.itemView)
@@ -44,22 +44,8 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
             }
         } else {
             // Covers the case of data not being ready yet
-            trackViewHolder.titleView.setText("No track");
+            trackViewHolder.titleView.setText("No tracks");
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        if (mTracks != null) {
-            return mTracks.size();
-        } else {
-            return 0;
-        }
-    }
-
-    void setTracks(List<Track> tracks) {
-        mTracks = tracks;
-        notifyDataSetChanged();
     }
 
     class TrackViewHolder extends RecyclerView.ViewHolder {
@@ -74,4 +60,16 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Trac
             artworkView = itemView.findViewById(R.id.artwork);
         }
     }
+
+    private static DiffUtil.ItemCallback<Track> DIFF_CALLBACK = new DiffUtil.ItemCallback<Track>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Track oldItem, @NonNull Track newItem) {
+            return oldItem.id == newItem.id;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Track oldItem, @NonNull Track newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
 }
