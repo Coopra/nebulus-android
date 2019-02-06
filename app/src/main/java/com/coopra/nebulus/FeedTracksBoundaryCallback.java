@@ -1,7 +1,7 @@
 package com.coopra.nebulus;
 
-import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
+import androidx.paging.PagedList;
+import androidx.annotation.NonNull;
 
 import com.coopra.data.DashboardActivity;
 import com.coopra.data.DashboardActivityEnvelope;
