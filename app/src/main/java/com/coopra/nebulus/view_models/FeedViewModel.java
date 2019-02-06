@@ -17,6 +17,7 @@ import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
 import com.coopra.nebulus.TokenHandler;
 import com.coopra.nebulus.TrackRepository;
+import com.coopra.nebulus.enums.NetworkStates;
 import com.coopra.service.service_implementations.ActivitiesService;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class FeedViewModel extends AndroidViewModel {
 
     public FeedViewModel(Application application) {
         super(application);
-        mRepository = new TrackRepository(application);
+        mRepository = new TrackRepository(application, getNetworkState());
         mAllTracks = mRepository.getAll();
     }
 
@@ -78,11 +79,5 @@ public class FeedViewModel extends AndroidViewModel {
                 mRepository.insertAll(new TrackRepository.TrackParameters(tracks, users));
             }
         }
-    }
-
-    public enum NetworkStates {
-        LOADING,
-
-        NORMAL
     }
 }

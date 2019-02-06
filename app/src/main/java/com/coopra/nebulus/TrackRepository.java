@@ -2,6 +2,7 @@ package com.coopra.nebulus;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import com.coopra.database.data_access_objects.TrackDao;
 import com.coopra.database.data_access_objects.UserDao;
 import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
+import com.coopra.nebulus.enums.NetworkStates;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class TrackRepository {
     private UserDao mUserDao;
     private LiveData<PagedList<Track>> mAllTracks;
 
-    public TrackRepository(Application application) {
+    public TrackRepository(Application application, MutableLiveData<NetworkStates> networkState) {
         AppDatabase db = AppDatabase.getDatabase(application);
         mTrackDao = db.trackDao();
         mUserDao = db.userDao();
@@ -30,7 +32,7 @@ public class TrackRepository {
                 .build();
 
         mAllTracks = new LivePagedListBuilder<>(mTrackDao.getAll(), myPagingConfig)
-                .setBoundaryCallback(new FeedTracksBoundaryCallback(this, TokenHandler.getToken(application)))
+                .setBoundaryCallback(new FeedTracksBoundaryCallback(this, TokenHandler.getToken(application), networkState))
                 .build();
     }
 

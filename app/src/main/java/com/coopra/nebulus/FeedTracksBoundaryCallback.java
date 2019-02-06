@@ -1,5 +1,6 @@
 package com.coopra.nebulus;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 import androidx.annotation.NonNull;
 
@@ -7,6 +8,7 @@ import com.coopra.data.DashboardActivity;
 import com.coopra.data.DashboardActivityEnvelope;
 import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
+import com.coopra.nebulus.enums.NetworkStates;
 import com.coopra.service.service_implementations.ActivitiesService;
 
 import java.util.ArrayList;
@@ -20,10 +22,12 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
     private TrackRepository mRepository;
     private String mToken;
     private boolean mIsLoading;
+    private MutableLiveData<NetworkStates> mNetworkState;
 
-    public FeedTracksBoundaryCallback(TrackRepository repository, String token) {
+    public FeedTracksBoundaryCallback(TrackRepository repository, String token, MutableLiveData<NetworkStates> networkState) {
         mRepository = repository;
         mToken = token;
+        mNetworkState = networkState;
     }
 
     /**
@@ -36,17 +40,20 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
         }
 
         mIsLoading = true;
+        mNetworkState.postValue(NetworkStates.LOADING);
 
         ActivitiesService.getFeedTracks(mToken, new Callback<DashboardActivityEnvelope>() {
             @Override
             public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 handleSuccessfulNetworkCall(response);
                 mIsLoading = false;
+                mNetworkState.postValue(NetworkStates.NORMAL);
             }
 
             @Override
             public void onFailure(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Throwable t) {
                 mIsLoading = false;
+                mNetworkState.postValue(NetworkStates.NORMAL);
             }
         });
     }
@@ -62,17 +69,20 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
         }
 
         mIsLoading = true;
+        mNetworkState.postValue(NetworkStates.LOADING);
 
         ActivitiesService.getNextTracks(mToken, itemAtEnd.nextToken, new Callback<DashboardActivityEnvelope>() {
             @Override
             public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 handleSuccessfulNetworkCall(response);
                 mIsLoading = false;
+                mNetworkState.postValue(NetworkStates.NORMAL);
             }
 
             @Override
             public void onFailure(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Throwable t) {
                 mIsLoading = false;
+                mNetworkState.postValue(NetworkStates.NORMAL);
             }
         });
     }

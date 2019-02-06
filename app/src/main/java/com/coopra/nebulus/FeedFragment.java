@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.coopra.database.entities.Track;
+import com.coopra.nebulus.enums.NetworkStates;
 import com.coopra.nebulus.view_models.FeedViewModel;
 
 public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -30,11 +31,11 @@ public class FeedFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onCreate(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(FeedViewModel.class);
 
-        mViewModel.getNetworkState().observe(this, new Observer<FeedViewModel.NetworkStates>() {
+        mViewModel.getNetworkState().observe(this, new Observer<NetworkStates>() {
             @Override
-            public void onChanged(FeedViewModel.NetworkStates networkState) {
+            public void onChanged(NetworkStates networkState) {
                 if (mSwipeRefreshView != null) {
-                    mSwipeRefreshView.setRefreshing(networkState == FeedViewModel.NetworkStates.LOADING);
+                    mSwipeRefreshView.setRefreshing(networkState == NetworkStates.LOADING);
                 }
             }
         });
