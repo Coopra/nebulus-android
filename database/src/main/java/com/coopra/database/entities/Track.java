@@ -26,6 +26,7 @@ public class Track {
         this.createdAt = serverTrack.created_at;
         this.nextToken = nextToken;
         this.activityCreatedAt = activityCreatedAt;
+        this.user = new User(serverTrack.user);
     }
 
     @PrimaryKey
@@ -35,7 +36,10 @@ public class Track {
     public String createdAt;
 
     @ColumnInfo(name = "user_id", index = true)
-    public String userId;
+    public int userId;
+
+    @ColumnInfo(name = "user")
+    public User user;
 
     @ColumnInfo(name = "title")
     public String title;

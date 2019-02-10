@@ -36,7 +36,7 @@ public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.T
         Track current = getItem(i);
         if (current != null) {
             trackViewHolder.titleView.setText(current.title);
-            //trackViewHolder.artistNameView.setText(current.users.username);
+            trackViewHolder.artistNameView.setText(current.user.username);
 
             if (!TextUtils.isEmpty(current.artworkUrl)) {
                 Glide.with(trackViewHolder.itemView)

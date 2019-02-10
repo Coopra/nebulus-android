@@ -17,7 +17,7 @@ public class Track {
     /**
      * User ID of the owner
      */
-    public String user_id;
+    public int user_id;
 
     /**
      * Mini user representation of the owner

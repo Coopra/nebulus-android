@@ -3,6 +3,8 @@ package com.coopra.database;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
+
 import android.content.Context;
 
 import com.coopra.database.data_access_objects.TrackDao;
@@ -11,6 +13,7 @@ import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
 
 @Database(entities = {Track.class, User.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase INSTANCE;
 
