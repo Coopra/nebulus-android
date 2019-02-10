@@ -48,7 +48,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/title"
         app:layout_constraintEnd_toEndOf="@id/artwork"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/artwork"
+        app:layout_constraintWidth_default="wrap"
         tools:text="@tools:sample/full_names" />
 
     <TextView
@@ -67,7 +69,9 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/artwork"
         app:layout_constraintEnd_toEndOf="@id/artwork"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/artwork"
+        app:layout_constraintWidth_default="wrap"
         tools:text="@tools:sample/lorem/random" />
 
     <View
