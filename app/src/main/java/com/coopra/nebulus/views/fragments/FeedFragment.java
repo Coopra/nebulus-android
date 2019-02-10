@@ -1,4 +1,4 @@
-package com.coopra.nebulus;
+package com.coopra.nebulus.views.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.coopra.database.entities.Track;
+import com.coopra.nebulus.views.adapters.TrackListAdapter;
 import com.coopra.nebulus.databinding.FragmentFeedBinding;
 import com.coopra.nebulus.enums.NetworkStates;
 import com.coopra.nebulus.view_models.FeedViewModel;

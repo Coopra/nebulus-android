@@ -1,6 +1,10 @@
-package com.coopra.nebulus;
+package com.coopra.nebulus.views.activities;
 
 import android.os.Bundle;
+
+import com.coopra.nebulus.R;
+import com.coopra.nebulus.views.fragments.FeedFragment;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;

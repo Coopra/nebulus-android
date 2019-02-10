@@ -1,4 +1,4 @@
-package com.coopra.nebulus;
+package com.coopra.nebulus.views.adapters;
 
 import androidx.paging.PagedListAdapter;
 import android.content.Context;
@@ -14,11 +14,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.coopra.database.entities.Track;
+import com.coopra.nebulus.R;
 
 public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.TrackViewHolder> {
     private final LayoutInflater mInflater;
 
-    TrackListAdapter(Context context) {
+    public TrackListAdapter(Context context) {
         super(DIFF_CALLBACK);
         mInflater = LayoutInflater.from(context);
     }
@@ -53,7 +54,7 @@ public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.T
         private final TextView artistNameView;
         private final ImageView artworkView;
 
-        public TrackViewHolder(@NonNull View itemView) {
+        TrackViewHolder(@NonNull View itemView) {
             super(itemView);
             titleView = itemView.findViewById(R.id.title);
             artistNameView = itemView.findViewById(R.id.artist_name);

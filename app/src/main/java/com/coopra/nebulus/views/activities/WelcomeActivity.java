@@ -1,4 +1,4 @@
-package com.coopra.nebulus;
+package com.coopra.nebulus.views.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
+
+import com.coopra.nebulus.R;
+import com.coopra.nebulus.TokenHandler;
+import com.coopra.nebulus.views.fragments.WelcomeFragment;
 
 public class WelcomeActivity extends AppCompatActivity {
     @Override
@@ -25,7 +29,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void checkForExistingToken() {
-        if (!TextUtils.isEmpty(TokenHandler.getToken(this))) {
+        if (!TextUtils.isEmpty(TokenHandler.getToken(getApplicationContext()))) {
             Intent intent = new Intent(this, HomeActivity.class);
             finish();
             startActivity(intent);
