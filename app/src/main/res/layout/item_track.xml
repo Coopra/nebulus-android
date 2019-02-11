@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="190dp"
+    android:layout_height="wrap_content"
     android:paddingTop="18dp">
 
     <androidx.constraintlayout.widget.Guideline
@@ -23,10 +23,10 @@
     <ImageView
         android:id="@+id/artwork"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="160dp"
         android:importantForAccessibility="no"
         android:scaleType="center"
-        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintBottom_toTopOf="@id/plays"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,6 +74,31 @@
         app:layout_constraintWidth_default="wrap"
         tools:text="@tools:sample/lorem/random" />
 
+    <TextView
+        android:id="@+id/plays"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintEnd_toStartOf="@id/genre"
+        app:layout_constraintStart_toStartOf="@id/start_guideline"
+        app:layout_constraintTop_toBottomOf="@id/artwork"
+        tools:text="@tools:sample/us_zipcodes" />
+
+    <TextView
+        android:id="@+id/genre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@id/divider"
+        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+        app:layout_constraintStart_toEndOf="@id/plays"
+        app:layout_constraintTop_toBottomOf="@id/artwork"
+        tools:text="@tools:sample/lorem" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
@@ -83,6 +108,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/artwork" />
+        app:layout_constraintTop_toBottomOf="@id/plays" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

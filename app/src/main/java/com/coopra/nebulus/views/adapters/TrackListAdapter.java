@@ -1,10 +1,13 @@
 package com.coopra.nebulus.views.adapters;
 
 import androidx.paging.PagedListAdapter;
+
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.coopra.database.entities.Track;
 import com.coopra.nebulus.R;
+
+import java.util.Locale;
 
 public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.TrackViewHolder> {
     private final LayoutInflater mInflater;
@@ -37,6 +42,8 @@ public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.T
         if (current != null) {
             trackViewHolder.titleView.setText(current.title);
             trackViewHolder.artistNameView.setText(current.user.username);
+            trackViewHolder.playsView.setText(String.format(Locale.getDefault(), "%d", current.playbackCount));
+            trackViewHolder.genreView.setText(trackViewHolder.genreView.getResources().getString(R.string.genre_tag, current.genre));
 
             if (!TextUtils.isEmpty(current.artworkUrl)) {
                 Glide.with(trackViewHolder.itemView)
@@ -53,12 +60,16 @@ public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.T
         private final TextView titleView;
         private final TextView artistNameView;
         private final ImageView artworkView;
+        private final TextView playsView;
+        private final TextView genreView;
 
         TrackViewHolder(@NonNull View itemView) {
             super(itemView);
             titleView = itemView.findViewById(R.id.title);
             artistNameView = itemView.findViewById(R.id.artist_name);
             artworkView = itemView.findViewById(R.id.artwork);
+            playsView = itemView.findViewById(R.id.plays);
+            genreView = itemView.findViewById(R.id.genre);
         }
     }
 
