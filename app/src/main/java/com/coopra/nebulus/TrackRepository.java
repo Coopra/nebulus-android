@@ -1,6 +1,8 @@
 package com.coopra.nebulus;
 
 import android.app.Application;
+
+import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
@@ -14,6 +16,7 @@ import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
 import com.coopra.nebulus.enums.NetworkStates;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrackRepository {
@@ -42,6 +45,22 @@ public class TrackRepository {
 
     public void insertAll(TrackParameters parameters) {
         new insertAllAsyncTask(mTrackDao, mUserDao).execute(parameters);
+    }
+
+    @WorkerThread
+    public static List<com.coopra.data.Track> alternativeGetTracks() {
+        List<com.coopra.data.Track> tracks = new ArrayList<>();
+        com.coopra.data.Track track1 = new com.coopra.data.Track();
+        track1.title = "journey";
+        track1.user = new com.coopra.data.User();
+        track1.user.username = "otxhello";
+        track1.playback_count = 7410;
+        track1.genre = "";
+        track1.artwork_url = "https://i1.sndcdn.com/artworks-000485572158-2fhfxz-large.jpg";
+
+        tracks.add(track1);
+
+        return tracks;
     }
 
     private static class insertAllAsyncTask extends AsyncTask<TrackParameters, Void, Void> {
