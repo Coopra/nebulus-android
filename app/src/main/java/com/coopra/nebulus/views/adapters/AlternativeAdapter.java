@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.coopra.data.Track;
 import com.coopra.nebulus.R;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,10 +19,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.MyViewHolder> {
-    private List<Track> mTracks;
+    private final List<Track> mTracks = new ArrayList<>();
 
     public void setTracks(List<Track> tracks) {
-        mTracks = tracks;
+        mTracks.clear();
+        mTracks.addAll(tracks);
         notifyDataSetChanged();
     }
 
@@ -53,21 +55,17 @@ public class AlternativeAdapter extends RecyclerView.Adapter<AlternativeAdapter.
 
     @Override
     public int getItemCount() {
-        if (mTracks != null) {
-            return mTracks.size();
-        } else {
-            return 0;
-        }
+        return mTracks.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView titleView;
         private final TextView artistNameView;
         private final ImageView artworkView;
         private final TextView playsView;
         private final TextView genreView;
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
             titleView = itemView.findViewById(R.id.title);
             artistNameView = itemView.findViewById(R.id.artist_name);
