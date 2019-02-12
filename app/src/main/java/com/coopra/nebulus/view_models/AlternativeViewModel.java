@@ -10,29 +10,27 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class AlternativeViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Track>> mTracks;
+    private final MutableLiveData<List<Track>> mTracks;
 
     public AlternativeViewModel(@NonNull Application application) {
         super(application);
+        mTracks = new MutableLiveData<>();
     }
 
-    public MutableLiveData<List<Track>> getTracks() {
-        if (mTracks == null) {
-            mTracks = new MutableLiveData<>();
-        }
-
+    public LiveData<List<Track>> getTracks() {
         return mTracks;
     }
 
     public void retrieveTracks() {
-        new GetTracksTask(getTracks()).execute();
+        new GetTracksTask(mTracks).execute();
     }
 
     private static class GetTracksTask extends AsyncTask<Void, Void, List<Track>> {
-        MutableLiveData<List<Track>> mTracksLiveData;
+        private final MutableLiveData<List<Track>> mTracksLiveData;
 
         GetTracksTask(MutableLiveData<List<Track>> tracksLiveData) {
             mTracksLiveData = tracksLiveData;
@@ -45,7 +43,7 @@ public class AlternativeViewModel extends AndroidViewModel {
 
         @Override
         protected void onPostExecute(List<Track> tracks) {
-            mTracksLiveData.postValue(tracks);
+            mTracksLiveData.setValue(tracks);
         }
     }
 }
