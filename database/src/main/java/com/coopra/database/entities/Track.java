@@ -8,27 +8,6 @@ import androidx.annotation.NonNull;
 
 @Entity(tableName = "track_table", foreignKeys = @ForeignKey(entity = User.class, parentColumns = "id", childColumns = "user_id"))
 public class Track {
-    public Track() {
-
-    }
-
-    public Track(@NonNull com.coopra.data.Track serverTrack, @NonNull String nextToken, @NonNull String activityCreatedAt) {
-        this.id = serverTrack.id;
-        this.userFavorite = serverTrack.user_favorite;
-        this.favoritingsCount = serverTrack.favoritings_count;
-        this.playbackCount = serverTrack.playback_count;
-        this.streamUrl = serverTrack.stream_url;
-        this.genre = serverTrack.genre;
-        this.duration = serverTrack.duration;
-        this.artworkUrl = serverTrack.artwork_url;
-        this.title = serverTrack.title;
-        this.userId = serverTrack.user_id;
-        this.createdAt = serverTrack.created_at;
-        this.nextToken = nextToken;
-        this.activityCreatedAt = activityCreatedAt;
-        this.user = new User(serverTrack.user);
-    }
-
     @PrimaryKey
     public int id;
 
@@ -70,4 +49,40 @@ public class Track {
 
     @ColumnInfo(name = "activity_created_at")
     public String activityCreatedAt;
+
+    public Track() {
+
+    }
+
+    public Track(@NonNull com.coopra.data.Track serverTrack, @NonNull String nextToken, @NonNull String activityCreatedAt) {
+        this.id = serverTrack.id;
+        this.userFavorite = serverTrack.user_favorite;
+        this.favoritingsCount = serverTrack.favoritings_count;
+        this.playbackCount = serverTrack.playback_count;
+        this.streamUrl = serverTrack.stream_url;
+        this.genre = serverTrack.genre;
+        this.duration = serverTrack.duration;
+        this.artworkUrl = serverTrack.artwork_url;
+        this.title = serverTrack.title;
+        this.userId = serverTrack.user_id;
+        this.createdAt = serverTrack.created_at;
+        this.nextToken = nextToken;
+        this.activityCreatedAt = activityCreatedAt;
+        this.user = new User(serverTrack.user);
+    }
+
+    public Track(@NonNull com.coopra.data.Track serverTrack) {
+        this.id = serverTrack.id;
+        this.userFavorite = serverTrack.user_favorite;
+        this.favoritingsCount = serverTrack.favoritings_count;
+        this.playbackCount = serverTrack.playback_count;
+        this.streamUrl = serverTrack.stream_url;
+        this.genre = serverTrack.genre;
+        this.duration = serverTrack.duration;
+        this.artworkUrl = serverTrack.artwork_url;
+        this.title = serverTrack.title;
+        this.userId = serverTrack.user_id;
+        this.createdAt = serverTrack.created_at;
+        this.user = new User(serverTrack.user);
+    }
 }

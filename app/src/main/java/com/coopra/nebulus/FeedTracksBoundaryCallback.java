@@ -10,6 +10,7 @@ import com.coopra.database.entities.Track;
 import com.coopra.database.entities.User;
 import com.coopra.nebulus.enums.NetworkStates;
 import com.coopra.service.service_implementations.ActivitiesService;
+import com.coopra.service.service_implementations.TracksService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
     private boolean mIsLoading;
     private MutableLiveData<NetworkStates> mNetworkState;
 
-    public FeedTracksBoundaryCallback(TrackRepository repository, String token, MutableLiveData<NetworkStates> networkState) {
+    FeedTracksBoundaryCallback(TrackRepository repository, String token, MutableLiveData<NetworkStates> networkState) {
         mRepository = repository;
         mToken = token;
         mNetworkState = networkState;
@@ -97,6 +98,41 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
                     tracks.add(new Track(activity.origin, response.body().next_href, activity.created_at));
                     users.add(new User(activity.origin.user));
                 }
+            }
+
+            if (tracks.size() > 0) {
+                mRepository.insertAll(new TrackRepository.TrackParameters(tracks, users));
+            } else {
+                getTrendingTracks();
+            }
+        }
+    }
+
+    private void getTrendingTracks() {
+        TracksService.getRandomTracks(new Callback<List<com.coopra.data.Track>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<com.coopra.data.Track>> call, @NonNull Response<List<com.coopra.data.Track>> response) {
+                handleSuccessfulTrendingCall(response);
+                mIsLoading = false;
+                mNetworkState.postValue(NetworkStates.NORMAL);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<com.coopra.data.Track>> call, @NonNull Throwable t) {
+                mIsLoading = false;
+                mNetworkState.postValue(NetworkStates.NORMAL);
+            }
+        });
+    }
+
+    private void handleSuccessfulTrendingCall(@NonNull Response<List<com.coopra.data.Track>> response) {
+        if (response.body() != null) {
+            List<Track> tracks = new ArrayList<>();
+            List<User> users = new ArrayList<>();
+
+            for (com.coopra.data.Track serverTrack : response.body()) {
+                tracks.add(new Track(serverTrack));
+                users.add(new User(serverTrack.user));
             }
 
             if (tracks.size() > 0) {
