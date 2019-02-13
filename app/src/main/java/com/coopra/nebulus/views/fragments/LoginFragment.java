@@ -40,6 +40,9 @@ public class LoginFragment extends Fragment {
                 if (url.contains("bing.com/?#access_token")) {
                     webPage.stopLoading();
                     saveToken(url);
+                } else if (url.contains("bing.com/?signed_up=1#access_token")) {
+                    webPage.stopLoading();
+                    saveNewUserToken(url);
                 }
 
                 super.onPageStarted(view, url, favicon);
@@ -51,8 +54,16 @@ public class LoginFragment extends Fragment {
     }
 
     private void saveToken(String url) {
-        String code = url.substring(url.indexOf("=") + 1);
+        String code = url.substring(url.indexOf('=') + 1);
         String token = code.split("&")[0];
+        TokenHandler.saveToken(getActivity().getApplicationContext(), token);
+        finishLogin();
+    }
+
+    private void saveNewUserToken(String url) {
+        String accessTokenWholeOption = url.substring(url.indexOf('#') + 1);
+        String accessTokenAndScope = accessTokenWholeOption.substring(accessTokenWholeOption.indexOf('=') + 1);
+        String token = accessTokenAndScope.split("&")[0];
         TokenHandler.saveToken(getActivity().getApplicationContext(), token);
         finishLogin();
     }
