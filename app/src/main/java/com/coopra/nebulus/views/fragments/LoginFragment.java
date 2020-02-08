@@ -32,12 +32,12 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         final WebView webPage = view.findViewById(R.id.web_page);
-        webPage.loadUrl("https://soundcloud.com/connect?client_id=" + clientId + "&redirect_uri=http://www.bing.com&response_type=token&scope=non-expiring");
+        webPage.loadUrl("https://soundcloud.com/connect?client_id=" + clientId + "&redirect_uri=http://www.bing.com&response_type=token&scope=non-expiring&display=popup");
 
         webPage.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                if (url.contains("bing.com/?#access_token")) {
+                if (url.contains("bing.com/#access_token")) {
                     webPage.stopLoading();
                     saveToken(url);
                 }
