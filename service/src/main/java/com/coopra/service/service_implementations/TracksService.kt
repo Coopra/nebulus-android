@@ -7,8 +7,10 @@ import com.coopra.service.interfaces.TracksInterface
 import retrofit2.Callback
 
 class TracksService {
+    private val retrofitHelper = RetrofitHelper()
+
     fun getRandomTracks(callback: Callback<List<Track>>) {
-        val service = RetrofitHelper.createRetrofit().create(TracksInterface::class.java)
+        val service = retrofitHelper.createRetrofit().create(TracksInterface::class.java)
         val call = service.getRandomTracks(Constants.CLIENT_ID)
         call.enqueue(callback)
     }
