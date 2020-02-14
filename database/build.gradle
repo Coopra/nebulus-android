@@ -45,7 +45,7 @@ dependencies {
     // Paging components
     implementation "androidx.paging:paging-runtime:$paging_version"
 
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "androidx.test:runner:$test_runner_version"
