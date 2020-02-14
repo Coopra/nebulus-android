@@ -1,8 +1,8 @@
 package com.coopra.nebulus;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
-import androidx.annotation.NonNull;
 
 import com.coopra.data.DashboardActivity;
 import com.coopra.data.DashboardActivityEnvelope;
@@ -23,8 +23,9 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
     private String mToken;
     private boolean mIsLoading;
     private MutableLiveData<NetworkStates> mNetworkState;
+    private ActivitiesService mActivitiesService = new ActivitiesService();
 
-    public FeedTracksBoundaryCallback(TrackRepository repository, String token, MutableLiveData<NetworkStates> networkState) {
+    FeedTracksBoundaryCallback(TrackRepository repository, String token, MutableLiveData<NetworkStates> networkState) {
         mRepository = repository;
         mToken = token;
         mNetworkState = networkState;
@@ -42,7 +43,7 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
         mIsLoading = true;
         mNetworkState.postValue(NetworkStates.LOADING);
 
-        ActivitiesService.getFeedTracks(mToken, new Callback<DashboardActivityEnvelope>() {
+        mActivitiesService.getFeedTracks(mToken, new Callback<DashboardActivityEnvelope>() {
             @Override
             public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 handleSuccessfulNetworkCall(response);
@@ -71,7 +72,7 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
         mIsLoading = true;
         mNetworkState.postValue(NetworkStates.LOADING);
 
-        ActivitiesService.getNextTracks(mToken, itemAtEnd.nextToken, new Callback<DashboardActivityEnvelope>() {
+        mActivitiesService.getNextTracks(mToken, itemAtEnd.nextToken, new Callback<DashboardActivityEnvelope>() {
             @Override
             public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 handleSuccessfulNetworkCall(response);

@@ -27,6 +27,7 @@ public class FeedViewModel extends AndroidViewModel {
     private LiveData<PagedList<Track>> mAllTracks;
     private MutableLiveData<NetworkStates> mNetworkState;
     private TrackRepository mRepository;
+    private ActivitiesService mActivitiesService = new ActivitiesService();
 
     public FeedViewModel(Application application) {
         super(application);
@@ -49,7 +50,7 @@ public class FeedViewModel extends AndroidViewModel {
     public void refreshFeed() {
         getNetworkState().postValue(NetworkStates.LOADING);
 
-        ActivitiesService.getFeedTracks(TokenHandler.getToken(getApplication()), new Callback<DashboardActivityEnvelope>() {
+        mActivitiesService.getFeedTracks(TokenHandler.getToken(getApplication()), new Callback<DashboardActivityEnvelope>() {
             @Override
             public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 handleSuccessfulNetworkCall(response);
