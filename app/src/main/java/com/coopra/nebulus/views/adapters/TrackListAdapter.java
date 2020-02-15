@@ -40,14 +40,14 @@ public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.T
     public void onBindViewHolder(@NonNull TrackViewHolder trackViewHolder, int i) {
         Track current = getItem(i);
         if (current != null) {
-            trackViewHolder.titleView.setText(current.title);
-            trackViewHolder.artistNameView.setText(current.user.username);
-            trackViewHolder.playsView.setText(String.format(Locale.getDefault(), "%d", current.playbackCount));
-            trackViewHolder.genreView.setText(trackViewHolder.genreView.getResources().getString(R.string.genre_tag, current.genre));
+            trackViewHolder.titleView.setText(current.getTitle());
+            trackViewHolder.artistNameView.setText(current.getUser().getUsername());
+            trackViewHolder.playsView.setText(String.format(Locale.getDefault(), "%d", current.getPlaybackCount()));
+            trackViewHolder.genreView.setText(trackViewHolder.genreView.getResources().getString(R.string.genre_tag, current.getGenre()));
 
-            if (!TextUtils.isEmpty(current.artworkUrl)) {
+            if (!TextUtils.isEmpty(current.getArtworkUrl())) {
                 Glide.with(trackViewHolder.itemView)
-                        .load(current.artworkUrl.replace("large", "t500x500"))
+                        .load(current.getArtworkUrl().replace("large", "t500x500"))
                         .into(trackViewHolder.artworkView);
             }
         } else {
@@ -76,7 +76,7 @@ public class TrackListAdapter extends PagedListAdapter<Track, TrackListAdapter.T
     private static DiffUtil.ItemCallback<Track> DIFF_CALLBACK = new DiffUtil.ItemCallback<Track>() {
         @Override
         public boolean areItemsTheSame(@NonNull Track oldItem, @NonNull Track newItem) {
-            return oldItem.id == newItem.id;
+            return oldItem.getId() == newItem.getId();
         }
 
         @Override

@@ -22,7 +22,7 @@ public class TrackRepository {
     private LiveData<PagedList<Track>> mAllTracks;
 
     public TrackRepository(Application application, MutableLiveData<NetworkStates> networkState) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        AppDatabase db = AppDatabase.Companion.getDatabase(application);
         mTrackDao = db.trackDao();
         mUserDao = db.userDao();
 
