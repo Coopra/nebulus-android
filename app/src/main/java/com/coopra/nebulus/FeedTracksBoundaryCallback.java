@@ -93,10 +93,10 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
             List<Track> tracks = new ArrayList<>();
             List<User> users = new ArrayList<>();
 
-            for (DashboardActivity activity : response.body().collection) {
-                if (activity.origin != null) {
-                    tracks.add(new Track(activity.origin, response.body().next_href, activity.created_at));
-                    users.add(new User(activity.origin.user));
+            for (DashboardActivity activity : response.body().getCollection()) {
+                if (activity.getOrigin() != null) {
+                    tracks.add(new Track(activity.getOrigin(), response.body().getNext_href(), activity.getCreated_at()));
+                    users.add(new User(activity.getOrigin().getUser()));
                 }
             }
 
