@@ -72,7 +72,7 @@ public class FeedTracksBoundaryCallback extends PagedList.BoundaryCallback<Track
         mIsLoading = true;
         mNetworkState.postValue(NetworkStates.LOADING);
 
-        mActivitiesService.getNextTracks(mToken, itemAtEnd.nextToken, new Callback<DashboardActivityEnvelope>() {
+        mActivitiesService.getNextTracks(mToken, itemAtEnd.getNextToken(), new Callback<DashboardActivityEnvelope>() {
             @Override
             public void onResponse(@NonNull Call<DashboardActivityEnvelope> call, @NonNull Response<DashboardActivityEnvelope> response) {
                 handleSuccessfulNetworkCall(response);
