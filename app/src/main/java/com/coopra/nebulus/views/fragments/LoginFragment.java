@@ -20,6 +20,7 @@ import com.coopra.nebulus.TokenHandler;
 
 public class LoginFragment extends Fragment {
     private static final String clientId = "db12996a6c897c97f8ce2df569d3f8dc";
+    private TokenHandler mTokenHandler = new TokenHandler();
 
     @Nullable
     @Override
@@ -53,7 +54,7 @@ public class LoginFragment extends Fragment {
     private void saveToken(String url) {
         String code = url.substring(url.indexOf("=") + 1);
         String token = code.split("&")[0];
-        TokenHandler.saveToken(getActivity().getApplicationContext(), token);
+        mTokenHandler.saveToken(getActivity().getApplicationContext(), token);
         finishLogin();
     }
 

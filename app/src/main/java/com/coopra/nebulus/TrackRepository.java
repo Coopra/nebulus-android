@@ -20,6 +20,7 @@ public class TrackRepository {
     private TrackDao mTrackDao;
     private UserDao mUserDao;
     private LiveData<PagedList<Track>> mAllTracks;
+    private TokenHandler mTokenHandler = new TokenHandler();
 
     public TrackRepository(Application application, MutableLiveData<NetworkStates> networkState) {
         AppDatabase db = AppDatabase.Companion.getDatabase(application);
@@ -32,7 +33,7 @@ public class TrackRepository {
                 .build();
 
         mAllTracks = new LivePagedListBuilder<>(mTrackDao.getAll(), myPagingConfig)
-                .setBoundaryCallback(new FeedTracksBoundaryCallback(this, TokenHandler.getToken(application), networkState))
+                .setBoundaryCallback(new FeedTracksBoundaryCallback(this, mTokenHandler.getToken(application), networkState))
                 .build();
     }
 

@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -39,14 +42,18 @@ dependencies {
 
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     // Paging components
     implementation "androidx.paging:paging-runtime:$paging_version"
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
+
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "androidx.test:runner:$test_runner_version"

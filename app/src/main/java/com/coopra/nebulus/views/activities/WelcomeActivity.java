@@ -12,6 +12,8 @@ import com.coopra.nebulus.TokenHandler;
 import com.coopra.nebulus.views.fragments.WelcomeFragment;
 
 public class WelcomeActivity extends AppCompatActivity {
+    private TokenHandler mTokenHandler = new TokenHandler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void checkForExistingToken() {
-        if (!TextUtils.isEmpty(TokenHandler.getToken(getApplicationContext()))) {
+        if (!TextUtils.isEmpty(mTokenHandler.getToken(getApplicationContext()))) {
             Intent intent = new Intent(this, HomeActivity.class);
             finish();
             startActivity(intent);
