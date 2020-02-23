@@ -11,8 +11,6 @@ import com.coopra.database.data_access_objects.UserDao
 import com.coopra.database.entities.Track
 import com.coopra.database.entities.User
 import com.coopra.nebulus.enums.NetworkStates
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class TrackRepository(application: Application, networkState: MutableLiveData<NetworkStates>) {
     private val trackDao: TrackDao
@@ -32,9 +30,13 @@ class TrackRepository(application: Application, networkState: MutableLiveData<Ne
         val tokenHandler = TokenHandler()
         allTracks = LivePagedListBuilder(trackDao.getAll(), myPagingConfig)
                 .setBoundaryCallback(FeedTracksBoundaryCallback(this,
-                        tokenHandler.getToken(application),
+                        tokenHandler.getToken(application)!!,
                         networkState))
                 .build()
+    }
+
+    fun getAll(): LiveData<PagedList<Track>> {
+        return allTracks
     }
 
     suspend fun insertAll(vararg parameters: TrackParameters) {
