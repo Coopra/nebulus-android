@@ -38,10 +38,8 @@ class TrackRepository(application: Application, networkState: MutableLiveData<Ne
     }
 
     suspend fun insertAll(vararg parameters: TrackParameters) {
-        val userEntities: Collection<User>
-        for (user in parameters[0].users) {
-
-        }
+        userDao.insertAll(*parameters[0].users.toTypedArray())
+        trackDao.insertAll(*parameters[0].tracks.toTypedArray())
     }
 
     data class TrackParameters(val tracks: List<Track>, val users: List<User>)

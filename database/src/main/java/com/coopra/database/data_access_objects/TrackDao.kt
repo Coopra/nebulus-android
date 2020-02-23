@@ -13,11 +13,11 @@ interface TrackDao {
     fun getAll(): DataSource.Factory<Int, Track>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg tracks: Track)
+    suspend fun insertAll(vararg tracks: Track)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(track: Track)
+    suspend fun insert(track: Track)
 
     @Query("DELETE FROM track_table")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

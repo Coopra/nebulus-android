@@ -9,11 +9,11 @@ import com.coopra.database.entities.User
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg users: User)
+    suspend fun insertAll(vararg users: User)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user: User)
+    suspend fun insert(user: User)
 
     @Query("DELETE FROM user_table")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
