@@ -13,12 +13,11 @@ import com.bumptech.glide.Glide
 import com.coopra.database.entities.Track
 import com.coopra.nebulus.R
 
-class TrackListAdapter(context: Context) : PagedListAdapter<Track, TrackListAdapter.TrackViewHolder>(
+class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolder>(
         DIFF_CALLBACK) {
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-        val itemView = inflater.inflate(R.layout.item_track, parent, false)
+        val itemView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_track, parent, false)
         return TrackViewHolder(itemView)
     }
 
