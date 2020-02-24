@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.coopra.nebulus.databinding.FragmentFeedBinding
@@ -16,13 +16,11 @@ import com.coopra.nebulus.views.adapters.TrackListAdapter
 
 class FeedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val adapter = TrackListAdapter()
-    private lateinit var viewModel: FeedViewModel
+    private val viewModel: FeedViewModel by activityViewModels()
     private lateinit var dataBinding: FragmentFeedBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
 
         viewModel.getNetworkState().observe(this, Observer {
             dataBinding.swipeRefreshView.isRefreshing = it == NetworkStates.LOADING
