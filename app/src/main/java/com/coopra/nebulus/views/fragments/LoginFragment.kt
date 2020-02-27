@@ -9,32 +9,35 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import com.coopra.nebulus.R
 import com.coopra.nebulus.TokenHandler
+import com.coopra.nebulus.databinding.FragmentLoginBinding
 import com.coopra.nebulus.views.activities.HomeActivity
 
 class LoginFragment : Fragment() {
+    private var _binding: FragmentLoginBinding? = null
     private val clientId = "db12996a6c897c97f8ce2df569d3f8dc"
     private val tokenHandler = TokenHandler()
+    // This property is only valid between onCreateView and onDestroyView
+    private val binding get() = _binding!!
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val webPage = view.findViewById<WebView>(R.id.web_page)
-        webPage.loadUrl(
+        binding.webPage.loadUrl(
                 "https://soundcloud.com/connect?client_id=$clientId&redirect_uri=http://www.bing.com&response_type=token&scope=non-expiring&display=popup")
 
-        webPage.webViewClient = object : WebViewClient() {
+        binding.webPage.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 if (url?.contains("bing.com/#access_token") == true) {
-                    webPage.stopLoading()
+                    binding.webPage.stopLoading()
                     saveToken(url)
                 }
 
@@ -42,8 +45,13 @@ class LoginFragment : Fragment() {
             }
         }
 
-        val webSettings = webPage.settings
+        val webSettings = binding.webPage.settings
         webSettings.javaScriptEnabled = true
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     private fun saveToken(url: String) {
