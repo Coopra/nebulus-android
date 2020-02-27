@@ -15,15 +15,17 @@ import com.coopra.nebulus.view_models.FeedViewModel
 import com.coopra.nebulus.views.adapters.TrackListAdapter
 
 class FeedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+    private var _binding: FragmentFeedBinding? = null
     private val adapter = TrackListAdapter()
     private val viewModel: FeedViewModel by activityViewModels()
-    private lateinit var dataBinding: FragmentFeedBinding
+    // This property is only valid between onCreateView and onDestroyView
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel.getNetworkState().observe(this, Observer {
-            dataBinding.swipeRefreshView.isRefreshing = it == NetworkStates.LOADING
+            binding.swipeRefreshView.isRefreshing = it == NetworkStates.LOADING
         })
 
         viewModel.getAllTracks().observe(this, Observer {
@@ -35,16 +37,21 @@ class FeedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
-        dataBinding = FragmentFeedBinding.inflate(inflater, container, false)
-        return dataBinding.root
+        _binding = FragmentFeedBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataBinding.trackList.adapter = adapter
-        dataBinding.trackList.layoutManager = LinearLayoutManager(context)
-        dataBinding.swipeRefreshView.setOnRefreshListener(this)
+        binding.trackList.adapter = adapter
+        binding.trackList.layoutManager = LinearLayoutManager(context)
+        binding.swipeRefreshView.setOnRefreshListener(this)
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 
     override fun onRefresh() {
