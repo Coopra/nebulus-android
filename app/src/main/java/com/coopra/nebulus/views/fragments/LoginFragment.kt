@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import com.coopra.nebulus.BuildConfig
 import com.coopra.nebulus.TokenHandler
 import com.coopra.nebulus.databinding.FragmentLoginBinding
 import com.coopra.nebulus.views.activities.HomeActivity
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
-    private val clientId = "db12996a6c897c97f8ce2df569d3f8dc"
     private val tokenHandler = TokenHandler()
     // This property is only valid between onCreateView and onDestroyView
     private val binding get() = _binding!!
@@ -32,7 +32,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.webPage.loadUrl(
-                "https://soundcloud.com/connect?client_id=$clientId&redirect_uri=http://www.bing.com&response_type=token&scope=non-expiring&display=popup")
+                "https://soundcloud.com/connect?client_id=${BuildConfig.CLIENT_ID}&redirect_uri=http://www.bing.com&response_type=token&scope=non-expiring&display=popup")
 
         binding.webPage.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
