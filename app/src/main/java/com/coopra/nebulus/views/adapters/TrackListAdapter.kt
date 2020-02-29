@@ -1,6 +1,5 @@
 package com.coopra.nebulus.views.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import android.widget.TextView
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.api.load
 import com.coopra.database.entities.Track
 import com.coopra.nebulus.R
 
@@ -29,13 +28,7 @@ class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolde
             holder.playsView.text = current.playbackCount.toString()
             holder.genreView.text =
                     holder.genreView.context.resources.getString(R.string.genre_tag, current.genre)
-
-            val artworkUrl = current.artworkUrl
-            if (artworkUrl?.isNotEmpty() == true) {
-                Glide.with(holder.itemView)
-                        .load(artworkUrl.replace("large", "t500x500"))
-                        .into(holder.artworkView)
-            }
+            holder.artworkView.load(current.artworkUrl?.replace("large", "t500x500"))
         } else {
             // Covers the case of data not being ready yet
             holder.titleView.text = "No tracks"
