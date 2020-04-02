@@ -17,13 +17,12 @@ class WelcomeActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_welcome)
 
-        val welcomeFragment = WelcomeFragment()
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, welcomeFragment)
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, WelcomeFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+        }
     }
 
     private fun checkForExistingToken() {

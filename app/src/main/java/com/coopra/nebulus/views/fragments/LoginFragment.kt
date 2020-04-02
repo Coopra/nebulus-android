@@ -63,7 +63,7 @@ class LoginFragment : Fragment() {
 
     private fun finishLogin() {
         val intent = Intent(context, HomeActivity::class.java)
-        activity?.finish() ?: return
+        requireActivity().finish()
         startActivity(intent)
     }
 }

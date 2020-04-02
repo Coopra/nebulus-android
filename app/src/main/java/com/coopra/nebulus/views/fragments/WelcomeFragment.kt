@@ -33,12 +33,10 @@ class WelcomeFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-        val loginFragment = LoginFragment()
-
-        val fragmentTransaction = parentFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, loginFragment)
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, LoginFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit()
     }
 }
