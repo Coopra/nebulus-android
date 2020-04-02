@@ -11,13 +11,11 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Always start on the feed fragment
-        val feedFragment = FeedFragment()
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, feedFragment)
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, FeedFragment())
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .commit()
+        }
     }
 }
