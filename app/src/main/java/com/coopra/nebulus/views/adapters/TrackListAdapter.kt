@@ -12,7 +12,7 @@ import coil.api.load
 import com.coopra.database.entities.Track
 import com.coopra.nebulus.R
 
-class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolder>(
+class TrackListAdapter(private val selectionListener: SelectionListener) : PagedListAdapter<Track, TrackListAdapter.TrackViewHolder>(
         DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -29,6 +29,7 @@ class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolde
             holder.genreView.text =
                     holder.genreView.context.resources.getString(R.string.genre_tag, current.genre)
             holder.artworkView.load(current.artworkUrl?.replace("large", "t500x500"))
+            holder.itemView.setOnClickListener { selectionListener.onClick(current) }
         } else {
             // Covers the case of data not being ready yet
             holder.titleView.text = "No tracks"
@@ -54,5 +55,9 @@ class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolde
             }
 
         }
+    }
+
+    interface SelectionListener {
+        fun onClick(track: Track)
     }
 }
