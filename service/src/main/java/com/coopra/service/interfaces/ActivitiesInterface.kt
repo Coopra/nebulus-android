@@ -7,7 +7,7 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface ActivitiesInterface {
-    @GET("me/activities/tracks.json?limit=50")
+    @GET("me/activities?limit=50")
     fun getFeedTracks(@Query("oauth_token") token: String): Call<DashboardActivityEnvelope>
 
     @GET
