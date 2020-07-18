@@ -26,7 +26,7 @@
         android:layout_height="160dp"
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@id/plays"
+        app:layout_constraintBottom_toTopOf="@id/likes"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toTopOf="parent"
@@ -75,7 +75,7 @@
         tools:text="@tools:sample/lorem/random" />
 
     <TextView
-        android:id="@+id/plays"
+        android:id="@+id/likes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -95,7 +95,7 @@
         android:textAlignment="textEnd"
         app:layout_constraintBottom_toTopOf="@id/divider"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
-        app:layout_constraintStart_toEndOf="@id/plays"
+        app:layout_constraintStart_toEndOf="@id/likes"
         app:layout_constraintTop_toBottomOf="@id/artwork"
         tools:text="@tools:sample/lorem" />
 
@@ -108,6 +108,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/plays" />
+        app:layout_constraintTop_toBottomOf="@id/likes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
