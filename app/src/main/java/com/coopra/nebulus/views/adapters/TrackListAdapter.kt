@@ -25,7 +25,7 @@ class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolde
         if (current != null) {
             holder.titleView.text = current.title
             holder.artistNameView.text = current.user.username
-            holder.playsView.text = current.playbackCount.toString()
+            holder.likesView.text = current.likesCount.toString()
             holder.genreView.text =
                     holder.genreView.context.resources.getString(R.string.genre_tag, current.genre)
             holder.artworkView.load(current.artworkUrl?.replace("large", "t500x500"))
@@ -39,7 +39,7 @@ class TrackListAdapter : PagedListAdapter<Track, TrackListAdapter.TrackViewHolde
         internal val titleView: TextView = itemView.findViewById(R.id.title)
         internal val artistNameView: TextView = itemView.findViewById(R.id.artist_name)
         internal val artworkView: ImageView = itemView.findViewById(R.id.artwork)
-        internal val playsView: TextView = itemView.findViewById(R.id.plays)
+        internal val likesView: TextView = itemView.findViewById(R.id.likes)
         internal val genreView: TextView = itemView.findViewById(R.id.genre)
     }
 
