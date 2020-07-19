@@ -14,6 +14,7 @@ class WaveformPlayer : View {
     private val ringStrokeWidth =
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics)
     private val ringPaint = Paint()
+    private val outerOval = RectF()
 
     constructor(context: Context?) : super(context) {
         init()
@@ -41,7 +42,7 @@ class WaveformPlayer : View {
 
         val diameter = min(width, height)
         val padding = ringStrokeWidth / 2
-        val outerOval = RectF(padding, padding, diameter - padding, diameter - padding)
+        outerOval.set(padding, padding, diameter - padding, diameter - padding)
         canvas?.drawArc(outerOval, 0f, 360f, false, ringPaint)
     }
 }
