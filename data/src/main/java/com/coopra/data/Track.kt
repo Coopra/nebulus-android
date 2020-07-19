@@ -55,12 +55,12 @@ data class Track(
         val playback_count: Int,
 
         /**
-         * Track favorite count
-         */
-        val favoritings_count: Int,
-
-        /**
          * Indicates if the track is a favorite of the current user
          */
-        val user_favorite: Boolean
+        val user_favorite: Boolean,
+
+        /**
+         * Track likes count
+         */
+        val likes_count: Int
 )

@@ -21,8 +21,8 @@ data class Track(
         @ColumnInfo(name = "genre") val genre: String?,
         @ColumnInfo(name = "stream_url") val streamUrl: String?,
         @ColumnInfo(name = "playback_count") val playbackCount: Int,
-        @ColumnInfo(name = "favoritings_count") val favoritingsCount: Int,
         @ColumnInfo(name = "user_favorite") val userFavorite: Boolean,
+        @ColumnInfo(name = "likes_count") val likesCount: Int,
         @ColumnInfo(name = "next_href") val nextToken: String,
         @ColumnInfo(name = "activity_created_at") val activityCreatedAt: String
 ) {
@@ -38,8 +38,8 @@ data class Track(
             serverTrack.genre,
             serverTrack.stream_url,
             serverTrack.playback_count,
-            serverTrack.favoritings_count,
             serverTrack.user_favorite,
+            serverTrack.likes_count,
             nextToken,
             activityCreatedAt)
 }
