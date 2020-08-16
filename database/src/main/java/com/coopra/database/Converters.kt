@@ -16,4 +16,16 @@ class Converters {
         val gson = Gson()
         return gson.fromJson(userJson, User::class.java)
     }
+
+    @TypeConverter
+    fun fromWaveform(waveform: IntArray): String {
+        val gson = Gson()
+        return gson.toJson(waveform)
+    }
+
+    @TypeConverter
+    fun toWaveform(waveformJson: String): IntArray {
+        val gson = Gson()
+        return gson.fromJson(waveformJson, IntArray::class.java)
+    }
 }

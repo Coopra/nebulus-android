@@ -3,11 +3,15 @@ package com.coopra.nebulus
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.coopra.data.DashboardActivityEnvelope
+import com.coopra.data.Waveform
 import com.coopra.database.entities.Track
 import com.coopra.database.entities.User
 import com.coopra.nebulus.enums.NetworkStates
 import com.coopra.service.service_implementations.ActivitiesService
+import com.google.gson.Gson
 import kotlinx.coroutines.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +22,8 @@ class FeedTracksBoundaryCallback(
         private val networkState: MutableLiveData<NetworkStates>) : PagedList.BoundaryCallback<Track>() {
     private val activitiesService = ActivitiesService()
     private var isLoading = false
+    private val gson = Gson()
+    private val client = OkHttpClient()
 
     /**
      * Requests initial data from the network, replacing all content currently in the database.
@@ -35,8 +41,6 @@ class FeedTracksBoundaryCallback(
                     call: Call<DashboardActivityEnvelope>,
                     response: Response<DashboardActivityEnvelope>) {
                 handleSuccessfulNetworkCall(response)
-                isLoading = false
-                networkState.postValue(NetworkStates.NORMAL)
             }
 
             override fun onFailure(call: Call<DashboardActivityEnvelope>, t: Throwable) {
@@ -61,8 +65,6 @@ class FeedTracksBoundaryCallback(
                             call: Call<DashboardActivityEnvelope>,
                             response: Response<DashboardActivityEnvelope>) {
                         handleSuccessfulNetworkCall(response)
-                        isLoading = false
-                        networkState.postValue(NetworkStates.NORMAL)
                     }
 
                     override fun onFailure(call: Call<DashboardActivityEnvelope>, t: Throwable) {
@@ -77,16 +79,38 @@ class FeedTracksBoundaryCallback(
         val tracks = mutableListOf<Track>()
         val users = mutableListOf<User>()
 
-        for (activity in activityEnvelope.collection) {
-            val origin = activity.origin ?: continue
-            tracks.add(Track(origin, activityEnvelope.next_href, activity.created_at))
-            users.add(User(origin.user))
-        }
+        MainScope().launch {
+            for (activity in activityEnvelope.collection) {
+                val origin = activity.origin ?: continue
+                if (origin.kind != "track" || origin.waveform_url.isNullOrEmpty()) {
+                    continue
+                }
 
-        if (tracks.size > 0) {
-            MainScope().launch {
+                tracks.add(Track(origin,
+                        activityEnvelope.next_href,
+                        activity.created_at,
+                        getWaveform(origin.waveform_url!!)))
+                users.add(User(origin.user))
+            }
+
+            if (tracks.size > 0) {
                 repository.insertAll(TrackRepository.TrackParameters(tracks, users))
             }
+
+            isLoading = false
+            networkState.postValue(NetworkStates.NORMAL)
+        }
+    }
+
+    private suspend fun getWaveform(waveformUrl: String): IntArray {
+        val request = Request.Builder()
+                .url(waveformUrl)
+                .build()
+
+        return withContext(Dispatchers.IO) {
+            val response = client.newCall(request).execute()
+            val waveform = gson.fromJson(response.body()?.charStream(), Waveform::class.java)
+            waveform.samples
         }
     }
 }
