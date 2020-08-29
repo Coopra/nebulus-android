@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.coopra.nebulus.databinding.FragmentPlayerBinding
+import com.coopra.nebulus.view_models.PlayerViewModel
 
 class PlayerFragment : Fragment() {
     private var _binding: FragmentPlayerBinding? = null
+    private val viewModel: PlayerViewModel by activityViewModels()
     // This property is only valid between onCreateView and onDestroyView
     private val binding get() = _binding!!
 
@@ -23,5 +27,15 @@ class PlayerFragment : Fragment() {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.artwork.observe(viewLifecycleOwner, Observer {
+            binding.waveformPlayer.setArtworkDrawable(it)
+        })
+
+        viewModel.getArtwork()
     }
 }

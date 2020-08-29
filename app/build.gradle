@@ -63,7 +63,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$paging_version"
 
     // Coil
-    implementation 'io.coil-kt:coil:0.11.0'
+    implementation 'io.coil-kt:coil:0.12.0'
 
     implementation "androidx.core:core-ktx:$core_ktx_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -15,6 +16,7 @@ import com.coopra.nebulus.R
 import com.coopra.nebulus.databinding.FragmentFeedBinding
 import com.coopra.nebulus.enums.NetworkStates
 import com.coopra.nebulus.view_models.FeedViewModel
+import com.coopra.nebulus.view_models.PlayerViewModel
 import com.coopra.nebulus.views.adapters.TrackListAdapter
 
 class FeedFragment : Fragment(),
@@ -22,7 +24,8 @@ class FeedFragment : Fragment(),
         TrackListAdapter.SelectionListener {
     private var _binding: FragmentFeedBinding? = null
     private val adapter = TrackListAdapter(this)
-    private val viewModel: FeedViewModel by activityViewModels()
+    private val viewModel: FeedViewModel by viewModels()
+    private val playerViewModel: PlayerViewModel by activityViewModels()
     // This property is only valid between onCreateView and onDestroyView
     private val binding get() = _binding!!
 
@@ -64,6 +67,7 @@ class FeedFragment : Fragment(),
     }
 
     override fun onClick(track: Track) {
+        playerViewModel.setActiveTrack(track)
         parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PlayerFragment())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
