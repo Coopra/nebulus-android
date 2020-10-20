@@ -92,7 +92,7 @@ class FeedViewModel(application: Application) : AndroidViewModel(application) {
 
     private suspend fun getWaveform(waveformUrl: String): IntArray {
         val request = Request.Builder()
-                .url(waveformUrl)
+                .url(waveformUrl.replace(".png", ".json"))
                 .build()
 
         return withContext(Dispatchers.IO) {
