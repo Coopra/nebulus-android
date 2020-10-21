@@ -60,14 +60,17 @@ class WaveformPlayer : View {
 
         val diameter = min(width, height)
         val padding = ringStrokeWidth / 2
-        outerOval.set(padding, padding, diameter - padding, diameter - padding)
+        outerOval.set(((width / 2) - (diameter / 2) + padding),
+                ((height / 2) - (diameter / 2) + padding),
+                ((width / 2) + (diameter / 2) - padding),
+                ((height / 2) + (diameter / 2) - padding))
         canvas?.drawArc(outerOval, 0f, 360f, false, ringPaint)
 
         if (artworkPaint.shader != null) {
-            artworkRect.set(ringStrokeWidth,
-                    ringStrokeWidth,
-                    diameter - ringStrokeWidth,
-                    diameter - ringStrokeWidth)
+            artworkRect.set(outerOval.left + padding,
+                    outerOval.top + padding,
+                    outerOval.right - padding,
+                    outerOval.bottom - padding)
             canvas?.drawRoundRect(artworkRect,
                     artworkRect.width() / 2,
                     artworkRect.height() / 2,
