@@ -15,8 +15,10 @@ class WaveformPlayer : View {
             TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics)
     private val ringPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val artworkPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val waveformPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     private val outerOval = RectF()
-    private var waveformData: IntArray? = null
+    private var waveformData = mutableListOf<Int>()
     private val artworkRect = RectF()
 
     constructor(context: Context?) : super(context) {
@@ -34,7 +36,17 @@ class WaveformPlayer : View {
     }
 
     fun setWaveformData(waveformData: IntArray) {
-        this.waveformData = waveformData
+        var index = 0
+        for (dataPoint in waveformData) {
+            if (index == 0) {
+                this.waveformData.add(dataPoint)
+            }
+
+            index++
+            if (index == 25) {
+                index = 0
+            }
+        }
     }
 
     fun setArtworkDrawable(artwork: Drawable) {
@@ -53,12 +65,37 @@ class WaveformPlayer : View {
         ringPaint.color = ContextCompat.getColor(context, android.R.color.holo_red_light)
         ringPaint.strokeWidth = ringStrokeWidth
         ringPaint.style = Paint.Style.STROKE
+
+        waveformPaint.color = ContextCompat.getColor(context, android.R.color.darker_gray)
+        waveformPaint.strokeWidth = ringStrokeWidth
+        waveformPaint.style = Paint.Style.STROKE
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val diameter = min(width, height)
+        val diameter: Int
+        if (waveformData.isNotEmpty()) {
+            diameter = min(width, height) - (waveformData.max()!! * 2)
+
+            canvas?.save()
+            for (waveformBar in waveformData) {
+                canvas?.drawLine(
+                        width / 2f,
+                        (height / 2f) - (diameter / 2f),
+                        width / 2f,
+                        ((height / 2f) - (diameter / 2f)) - waveformBar,
+                        waveformPaint
+                )
+
+                canvas?.rotate(25f, width / 2f, height / 2f)
+            }
+
+            canvas?.restore()
+        } else {
+            diameter = min(width, height)
+        }
+
         val padding = ringStrokeWidth / 2
         outerOval.set(((width / 2) - (diameter / 2) + padding),
                 ((height / 2) - (diameter / 2) + padding),

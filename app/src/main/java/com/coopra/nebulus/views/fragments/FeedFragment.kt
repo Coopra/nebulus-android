@@ -67,7 +67,7 @@ class FeedFragment : Fragment(),
     }
 
     override fun onClick(track: Track) {
-        playerViewModel.setActiveTrack(track)
+        playerViewModel.activeTrack = track
         parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, PlayerFragment())
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

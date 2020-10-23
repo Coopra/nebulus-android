@@ -37,5 +37,9 @@ class PlayerFragment : Fragment() {
         })
 
         viewModel.getArtwork()
+
+        if (viewModel.activeTrack != null) {
+            binding.waveformPlayer.setWaveformData(viewModel.activeTrack!!.waveform)
+        }
     }
 }

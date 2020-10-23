@@ -16,7 +16,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     private val imageLoader = ImageLoader.Builder(application)
             .build()
 
-    private var activeTrack: Track? = null
+    var activeTrack: Track? = null
     val artwork: LiveData<Drawable>
         get() = _artwork
     private val _artwork = MutableLiveData<Drawable>()
@@ -29,9 +29,5 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             val result = imageLoader.execute(request)
             _artwork.postValue(result.drawable)
         }
-    }
-
-    fun setActiveTrack(track: Track) {
-        activeTrack = track
     }
 }
