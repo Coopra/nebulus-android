@@ -59,9 +59,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-    // Paging components
-    implementation "androidx.paging:paging-runtime:$paging_version"
-
     // Coil
     implementation 'io.coil-kt:coil:0.12.0'
 
