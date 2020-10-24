@@ -3,9 +3,9 @@ package com.coopra.data
 /**
  * A SoundCloud track
  */
-data class Track(
+data class Origin(
         /**
-         * Track ID
+         * Origin ID
          */
         val id: Int,
 
@@ -62,5 +62,15 @@ data class Track(
         /**
          * Track likes count
          */
-        val likes_count: Int
+        val likes_count: Int,
+
+        /**
+         * Link to get JSON representation of waveform
+         */
+        val waveform_url: String?,
+
+        /**
+         * Type of origin, e.g. track or playlist
+         */
+        val kind: String
 )

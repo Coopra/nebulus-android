@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.coopra.data.Track
+import com.coopra.data.Origin
 
 @Entity(tableName = "track_table",
         foreignKeys = [ForeignKey(entity = User::class,
@@ -24,22 +24,26 @@ data class Track(
         @ColumnInfo(name = "user_favorite") val userFavorite: Boolean,
         @ColumnInfo(name = "likes_count") val likesCount: Int,
         @ColumnInfo(name = "next_href") val nextToken: String,
-        @ColumnInfo(name = "activity_created_at") val activityCreatedAt: String
+        @ColumnInfo(name = "activity_created_at") val activityCreatedAt: String,
+        @ColumnInfo(name = "waveform") val waveform: IntArray
 ) {
-    constructor(serverTrack: Track,
-                nextToken: String,
-                activityCreatedAt: String) : this(serverTrack.id,
-            serverTrack.created_at,
-            serverTrack.user_id,
-            User(serverTrack.user),
-            serverTrack.title,
-            serverTrack.artwork_url,
-            serverTrack.duration,
-            serverTrack.genre,
-            serverTrack.stream_url,
-            serverTrack.playback_count,
-            serverTrack.user_favorite,
-            serverTrack.likes_count,
+    constructor(
+            serverOrigin: Origin,
+            nextToken: String,
+            activityCreatedAt: String,
+            waveform: IntArray) : this(serverOrigin.id,
+            serverOrigin.created_at,
+            serverOrigin.user_id,
+            User(serverOrigin.user),
+            serverOrigin.title,
+            serverOrigin.artwork_url,
+            serverOrigin.duration,
+            serverOrigin.genre,
+            serverOrigin.stream_url,
+            serverOrigin.playback_count,
+            serverOrigin.user_favorite,
+            serverOrigin.likes_count,
             nextToken,
-            activityCreatedAt)
+            activityCreatedAt,
+            waveform)
 }

@@ -5,19 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.coopra.database.entities.Track
+import com.coopra.nebulus.R
 import com.coopra.nebulus.databinding.FragmentFeedBinding
 import com.coopra.nebulus.enums.NetworkStates
 import com.coopra.nebulus.view_models.FeedViewModel
+import com.coopra.nebulus.view_models.PlayerViewModel
 import com.coopra.nebulus.views.adapters.TrackListAdapter
 
-class FeedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class FeedFragment : Fragment(),
+        SwipeRefreshLayout.OnRefreshListener,
+        TrackListAdapter.SelectionListener {
     private var _binding: FragmentFeedBinding? = null
-    private val adapter = TrackListAdapter()
-    private val viewModel: FeedViewModel by activityViewModels()
+    private val adapter = TrackListAdapter(this)
+    private val viewModel: FeedViewModel by viewModels()
+    private val playerViewModel: PlayerViewModel by activityViewModels()
     // This property is only valid between onCreateView and onDestroyView
     private val binding get() = _binding!!
 
@@ -56,5 +64,14 @@ class FeedFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onRefresh() {
         viewModel.refreshFeed()
+    }
+
+    override fun onClick(track: Track) {
+        playerViewModel.activeTrack = track
+        parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, PlayerFragment())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .commit()
     }
 }
