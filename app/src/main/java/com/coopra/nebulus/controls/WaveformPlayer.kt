@@ -76,7 +76,7 @@ class WaveformPlayer : View {
 
         val diameter: Int
         if (waveformData.isNotEmpty()) {
-            diameter = min(width, height) - (waveformData.max()!! * 2)
+            diameter = min(width, height) - (waveformData.maxOrNull()!! * 2)
 
             canvas?.save()
             for (waveformBar in waveformData) {
