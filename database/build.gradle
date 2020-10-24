@@ -50,7 +50,7 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     // Paging components
-    implementation "androidx.paging:paging-runtime:$paging_version"
+    api "androidx.paging:paging-runtime-ktx:$paging_version"
 
     api 'com.google.code.gson:gson:2.8.6'
 
