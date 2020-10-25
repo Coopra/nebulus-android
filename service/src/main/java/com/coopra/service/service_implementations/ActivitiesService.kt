@@ -3,20 +3,16 @@ package com.coopra.service.service_implementations
 import com.coopra.data.DashboardActivityEnvelope
 import com.coopra.service.RetrofitHelper
 import com.coopra.service.interfaces.ActivitiesInterface
-import retrofit2.Callback
 
 class ActivitiesService {
     private val retrofitHelper = RetrofitHelper()
+    private val service = retrofitHelper.createRetrofit().create(ActivitiesInterface::class.java)
 
-    fun getFeedTracks(token: String, callback: Callback<DashboardActivityEnvelope>) {
-        val service = retrofitHelper.createRetrofit().create(ActivitiesInterface::class.java)
-        val call = service.getFeedTracks(token)
-        call.enqueue(callback)
+    suspend fun getFeedTracks(token: String): DashboardActivityEnvelope {
+        return service.getFeedTracks(token)
     }
 
-    fun getNextTracks(token: String, url: String, callback: Callback<DashboardActivityEnvelope>) {
-        val service = retrofitHelper.createRetrofit().create(ActivitiesInterface::class.java)
-        val call = service.getNextTracks(url, token)
-        call.enqueue(callback)
+    suspend fun getNextTracks(token: String, url: String): DashboardActivityEnvelope {
+        return service.getNextTracks(url, token)
     }
 }
