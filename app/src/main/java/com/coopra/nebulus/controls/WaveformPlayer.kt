@@ -19,7 +19,8 @@ class WaveformPlayer : View {
 
     private val outerOval = RectF()
     private var waveformData = mutableListOf<Int>()
-    private val artworkRect = RectF()
+    private var artworkBitmap: Bitmap? = null
+    private val artworkPath = Path()
 
     constructor(context: Context?) : super(context) {
         init()
@@ -47,16 +48,20 @@ class WaveformPlayer : View {
                 index = 0
             }
         }
+
+        invalidate()
     }
 
     fun setArtworkDrawable(artwork: Drawable) {
         if (width > 0 && height > 0) {
-            val diameter = min(width, height)
-            artworkPaint.shader =
-                    BitmapShader(artwork.toBitmap(diameter,
-                            diameter),
-                            Shader.TileMode.MIRROR,
-                            Shader.TileMode.MIRROR)
+            val diameter: Int = if (waveformData.isNotEmpty()) {
+                (min(width,
+                        height) - (waveformData.maxOrNull()!! * 2) - (ringStrokeWidth * 2f)).toInt()
+            } else {
+                (min(width, height) - (ringStrokeWidth * 2f)).toInt()
+            }
+
+            artworkBitmap = artwork.toBitmap(diameter, diameter)
             invalidate()
         }
     }
@@ -103,15 +108,20 @@ class WaveformPlayer : View {
                 ((height / 2) + (diameter / 2) - padding))
         canvas?.drawArc(outerOval, 0f, 360f, false, ringPaint)
 
-        if (artworkPaint.shader != null) {
-            artworkRect.set(outerOval.left + padding,
+        if (artworkBitmap != null) {
+            canvas?.save()
+            artworkPath.reset()
+            artworkPath.addCircle(width / 2f,
+                    height / 2f,
+                    (diameter / 2f) - (padding * 2f),
+                    Path.Direction.CW)
+
+            canvas?.clipPath(artworkPath)
+            canvas?.drawBitmap(artworkBitmap!!,
+                    outerOval.left + padding,
                     outerOval.top + padding,
-                    outerOval.right - padding,
-                    outerOval.bottom - padding)
-            canvas?.drawRoundRect(artworkRect,
-                    artworkRect.width() / 2,
-                    artworkRect.height() / 2,
                     artworkPaint)
+            canvas?.restore()
         }
     }
 }
