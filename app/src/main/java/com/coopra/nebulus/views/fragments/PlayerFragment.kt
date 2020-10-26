@@ -32,14 +32,14 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.artwork.observe(viewLifecycleOwner, Observer {
+        if (viewModel.activeTrack != null) {
+            binding.waveformPlayer.setWaveformData(viewModel.activeTrack!!.waveform)
+        }
+
+        viewModel.artwork.observe(viewLifecycleOwner, {
             binding.waveformPlayer.setArtworkDrawable(it)
         })
 
         viewModel.getArtwork()
-
-        if (viewModel.activeTrack != null) {
-            binding.waveformPlayer.setWaveformData(viewModel.activeTrack!!.waveform)
-        }
     }
 }
