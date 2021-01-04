@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="saved_token">saved_token</string>
     <string name="preference_file_key">com.coopra.nebulus.PREFERENCE_FILE_KEY</string>
 </resources>
