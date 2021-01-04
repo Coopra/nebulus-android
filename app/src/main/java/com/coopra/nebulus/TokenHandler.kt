@@ -1,21 +1,21 @@
 package com.coopra.nebulus
 
 import android.content.Context
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 
 class TokenHandler {
     fun saveToken(context: Context, token: String) {
-        val sharedPref =
-                context.getSharedPreferences(context.getString(R.string.preference_file_key),
-                        Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putString(context.getString(R.string.saved_token), token)
-        editor.commit()
+        PreferenceManager.getDefaultSharedPreferences(context).edit(commit = true) {
+            putString(TOKEN_KEY, token)
+        }
     }
 
     fun getToken(context: Context): String? {
-        val sharedPref =
-                context.getSharedPreferences(context.getString(R.string.preference_file_key),
-                        Context.MODE_PRIVATE)
-        return sharedPref.getString(context.getString(R.string.saved_token), null)
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(TOKEN_KEY, null)
+    }
+
+    companion object {
+        private const val TOKEN_KEY = "saved_token"
     }
 }
