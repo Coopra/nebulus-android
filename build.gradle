@@ -37,7 +37,7 @@ allprojects {
         min_sdk_version = 21
         target_sdk_version = 29
 
-        room_version = '2.2.5'
+        room_version = '2.2.6'
         lifecycle_version = '2.2.0'
         paging_version = '2.1.2'
         app_compat_version = '1.2.0'
