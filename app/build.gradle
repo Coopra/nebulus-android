@@ -46,7 +46,7 @@ dependencies {
     implementation project(":data")
 
     implementation "androidx.appcompat:appcompat:$app_compat_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.fragment:fragment-ktx:1.2.5'
